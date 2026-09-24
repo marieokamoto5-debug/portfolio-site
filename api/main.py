@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from sqlalchemy import select
 
 from database import SessionLocal
-from models import Profile
+from models import Profile, Skill
 
 app = FastAPI()
 
@@ -21,3 +21,16 @@ def get_profile():
         "bio": profile.bio,
         "image_id": profile.image_id,
     }
+
+@app.get("/skills")
+def get_skills():
+    with SessionLocal() as db:
+        skills = db.scalars(select(Skill)).all()
+
+    return [
+        {
+            "id": skill.id,
+            "name": skill.name,
+        }
+        for skill in skills
+    ]
