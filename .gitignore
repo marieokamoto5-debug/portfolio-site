@@ -10,3 +10,5 @@ __pycache__/
 
 # 画像は除く
 api/images/
+
+api/secrets/
