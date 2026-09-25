@@ -12,39 +12,53 @@ export default function AdminLoginPage() {
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
 
-        const userCredential = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
+        try {
+            const userCredential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
 
-        const idToken = await userCredential.user.getIdToken(true);
+            const idToken = await userCredential.user.getIdToken(true);
 
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_FASTAPI_URL}/auth/admin-check`,
-            {
-                headers: {
-                    Authorization: `Bearer ${idToken}`,
-                },
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_FASTAPI_URL}/auth/admin-check`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${idToken}`,
+                    },
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("管理者認証に失敗しました。");
             }
-        );
 
-        const data = await response.json();
+            const data = await response.json();
 
-        if (!response.ok || !data.admin) {
-            alert("管理者権限がありません。");
-            return;
+            if (!data.admin) {
+                throw new Error("管理者権限がありません。");
+            }
+
+            const sessionResponse = await fetch("/api/auth/session", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ idToken }),
+            });
+
+            if (!sessionResponse.ok) {
+                throw new Error("ログイン状態の保存に失敗しました。");
+            }
+
+            window.location.href = "/admin";
+        } catch (error) {
+            console.error(error);
+            alert(
+                "ログインに失敗しました。メールアドレスまたはパスワードを確認してください。"
+            );
         }
-        await fetch("/api/auth/session", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ idToken }),
-        });
-
-        window.location.href = "/admin";
-
     }
     return (
         <main className="mx-auto max-w-md p-8">
