@@ -21,7 +21,7 @@ export default function AdminLoginPage() {
         const idToken = await userCredential.user.getIdToken(true);
 
         const response = await fetch(
-            `${process.env.NEXT_PUBLIC_FASTAPI_URL}/auth/check`,
+            `${process.env.NEXT_PUBLIC_FASTAPI_URL}/auth/admin-check`,
             {
                 headers: {
                     Authorization: `Bearer ${idToken}`,
