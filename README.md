@@ -53,3 +53,23 @@ uv run uvicorn main:app --reload
 
 確認先：http://localhost:8000
 API確認画面：http://localhost:8000/docs
+
+# FastAPIのレイヤ構成
+
+ブラウザ / Next.js
+        ↓
+      Router
+        ↓
+      Service
+        ↓
+    Repository
+        ↓
+      Model
+        ↓
+   PostgreSQL
+
+Router      = API受付係
+Service     = 処理・判断係
+Repository  = DB操作係
+Model       = DB構造
+Schema      = APIデータの型・形
