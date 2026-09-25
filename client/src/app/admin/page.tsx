@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import LogoutButton from "./LogoutButton";
 
 export default async function AdminPage() {
     const cookieStore = await cookies();
@@ -33,6 +34,7 @@ export default async function AdminPage() {
         <main className="p-8">
             <h1 className="text-2xl font-bold">管理画面</h1>
             <p>管理者としてログインしています。</p>
+            <LogoutButton />
         </main>
     );
 }
