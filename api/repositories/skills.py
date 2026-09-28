@@ -21,6 +21,9 @@ def update_skill(skill_id: int, name: str):
     with SessionLocal() as db:
         skill = db.get(Skill, skill_id)
 
+        if skill is None:
+            return None
+        
         skill.name = name
 
         db.commit()
@@ -32,5 +35,8 @@ def delete_skill(skill_id: int):
     with SessionLocal() as db:
         skill = db.get(Skill, skill_id)
 
+        if skill is None:
+            return None
+        
         db.delete(skill)
         db.commit()

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from auth import require_admin
 from services.skills import (
     get_skills_service,
@@ -42,6 +42,12 @@ def update_skill(
 ):
     skill = update_skill_service(skill_id, skill_data.name)
 
+    if skill is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Skill not found"
+        )
+
     return {
          "id": skill.id,
          "name": skill.name,
@@ -53,7 +59,13 @@ def delete_skill(
     skill_id: int,
     user=Depends(require_admin),
 ):
-    delete_skill_service(skill_id)
+    skill = delete_skill_service(skill_id)
+
+    if skill is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Skill not found"
+        )
 
     return {
         "message": "Skill deleted"

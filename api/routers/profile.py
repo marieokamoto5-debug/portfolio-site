@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from auth import require_admin
 from schemas.profile import ProfileUpdate
 from services.profile import get_profile_service, update_profile_service
@@ -26,6 +26,12 @@ def update_profile(
         profile_data.name,
         profile_data.bio,
     )
+
+    if profile is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Profile not found"
+        )
     return {
         "id": profile.id,
         "name": profile.name,
