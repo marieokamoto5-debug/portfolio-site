@@ -11,4 +11,4 @@ def update_skill_service(skill_id: int, name: str):
     return update_skill(skill_id, name)
 
 def delete_skill_service(skill_id: int):
-    delete_skill(skill_id)
+    return delete_skill(skill_id)

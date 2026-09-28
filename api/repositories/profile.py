@@ -11,7 +11,7 @@ def get_profile():
 def update_profile(name: str, bio: str):
     with SessionLocal() as db:
         profile = db.scalar(select(Profile))
-        if Profile is None:
+        if profile is None:
             return None
         
         profile.name = name

@@ -37,6 +37,8 @@ def delete_skill(skill_id: int):
 
         if skill is None:
             return None
-        
+
         db.delete(skill)
         db.commit()
+
+        return skill
