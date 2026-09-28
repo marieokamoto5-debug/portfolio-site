@@ -1,5 +1,12 @@
-from fastapi import APIRouter
-from services.skills import get_skills_service
+from fastapi import APIRouter, Depends
+from auth import require_admin
+from services.skills import (
+    get_skills_service,
+    create_skill_service,
+    update_skill_service,
+    delete_skill_service
+)
+from schemas.skills import SkillCreate, SkillUpdate
 
 router = APIRouter()
 
@@ -14,3 +21,40 @@ def read_skills():
         }
     for skill in skills
     ]
+
+@router.post("/admin/skills")
+def create_skill(
+    skill_data: SkillCreate,
+    user=Depends(require_admin),
+):
+    skill = create_skill_service(skill_data.name)
+
+    return {
+        "id": skill.id,
+        "name": skill.name,
+    }
+
+@router.put("/admin/skills/{skill_id}")
+def update_skill(
+    skill_id: int,
+    skill_data: SkillUpdate,
+    user=Depends(require_admin),
+):
+    skill = update_skill_service(skill_id, skill_data.name)
+
+    return {
+         "id": skill.id,
+         "name": skill.name,
+    }
+
+
+@router.delete("/admin/skills/{skill_id}")
+def delete_skill(
+    skill_id: int,
+    user=Depends(require_admin),
+):
+    delete_skill_service(skill_id)
+
+    return {
+        "message": "Skill deleted"
+    }
