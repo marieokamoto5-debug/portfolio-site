@@ -15,28 +15,36 @@ export async function PUT(
         );
     }
 
-    const { skillId } = await context.params;
-    const body = await request.json();
+    try {
+        const { skillId } = await context.params;
+        const body = await request.json();
 
-    const response = await fetch(
-        `${process.env.FASTAPI_URL}/admin/skills/${skillId}`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${idToken}`,
-            },
-            body: JSON.stringify(body),
-        }
-    );
+        const response = await fetch(
+            `${process.env.FASTAPI_URL}/admin/skills/${skillId}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${idToken}`,
+                },
+                body: JSON.stringify(body),
+            }
+        );
 
-    const data = await response.json();
+        const data = await response.json();
 
-    return NextResponse.json(data, {
-        status: response.status,
-    });
+        return NextResponse.json(data, {
+            status: response.status,
+        });
+    } catch (error) {
+        console.error(error);
+
+        return NextResponse.json(
+            { detail: "Backend service unavailable" },
+            { status: 502 }
+        );
+    }
 }
-
 
 export async function DELETE(
     request: Request,
@@ -52,21 +60,30 @@ export async function DELETE(
         );
     }
 
-    const { skillId } = await context.params;
+    try {
+        const { skillId } = await context.params;
 
-    const response = await fetch(
-        `${process.env.FASTAPI_URL}/admin/skills/${skillId}`,
-        {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${idToken}`,
-            },
-        }
-    );
+        const response = await fetch(
+            `${process.env.FASTAPI_URL}/admin/skills/${skillId}`,
+            {
+                method: "DELETE",
+                headers: {
+                    Authorization: `Bearer ${idToken}`,
+                },
+            }
+        );
 
-    const data = await response.json();
+        const data = await response.json();
 
-    return NextResponse.json(data, {
-        status: response.status,
-    });
+        return NextResponse.json(data, {
+            status: response.status,
+        });
+    } catch (error) {
+        console.error(error);
+
+        return NextResponse.json(
+            { detail: "Backend service unavailable" },
+            { status: 502 }
+        );
+    }
 }

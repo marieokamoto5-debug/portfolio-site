@@ -22,7 +22,7 @@ export default function SKillsManager({
 
     async function handleAdd(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const response = await fetch("api/admin/skills", {
+        const response = await fetch("/api/admin/skills", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
