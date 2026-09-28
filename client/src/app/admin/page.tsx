@@ -64,6 +64,15 @@ export default async function AdminPage() {
             <p>管理者としてログインしています。</p>
             <LogoutButton />
             <section className="mt-8">
+                <h2 className="text-xl font-bold">プロフィール</h2>
+
+                <ProfileForm
+                    name={profile.name}
+                    bio={profile.bio}
+                />
+            </section>
+            <section className="mt-8">
+
                 <h2 className="text-xl font-bold">スキル</h2>
 
                 <SkillsManager initialSkills={skills} />
