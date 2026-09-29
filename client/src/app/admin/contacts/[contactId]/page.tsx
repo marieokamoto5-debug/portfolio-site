@@ -46,27 +46,7 @@ export default async function ContactDetailPage({
     const contact: Contact = await response.json();
 
     return (
-
-
         <main className="p-8">
-            <h1 className="text-2xl font-bold">管理画面</h1>
-            <p>管理者としてログインしています。</p>
-            <LogoutButton />
-
-            <section className="mt-8">
-                <h2 className="text-xl font-bold">プロフィール</h2>
-
-                <ProfileForm
-                    name={profile.name}
-                    bio={profile.bio}
-                />
-            </section>
-
-            <section className="mt-8">
-                <h2 className="text-xl font-bold">スキル</h2>
-
-                <SkillsManager initialSkills={skills} />
-            </section>
             <h1 className="text-2xl font-bold">問い合わせ詳細</h1>
 
             <div className="mt-6 space-y-3">
