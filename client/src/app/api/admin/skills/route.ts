@@ -1,31 +1,21 @@
-import { cookies } from "next/headers";
+import { fetchFastApi } from "@/lib/fetchFastApi";
 import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
-    const cookieStore = await cookies();
-    const idToken = cookieStore.get("firebase_id_token")?.value;
-
-    if (!idToken) {
-        return NextResponse.json(
-            { detail: "Unauthorized" },
-            { status: 401 }
-        );
-    }
-
     try {
         const body = await request.json();
 
-        const response = await fetch(
-            `${process.env.FASTAPI_URL}/admin/skills`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${idToken}`,
-                },
-                body: JSON.stringify(body),
-            }
+        const response = await fetchFastApi(
+            "/admin/skills",
+            "POST",
+            body
         );
+        if (!response) {
+            return NextResponse.json(
+                { detail: "Unauthorized" },
+                { status: 401 }
+            );
+        }
 
         const data = await response.json();
 
