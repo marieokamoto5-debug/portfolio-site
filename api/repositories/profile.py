@@ -7,3 +7,17 @@ def get_profile():
     with SessionLocal() as db:
         return db.scalar(select(Profile))
 
+
+def update_profile(name: str, bio: str):
+    with SessionLocal() as db:
+        profile = db.scalar(select(Profile))
+        if profile is None:
+            return None
+        
+        profile.name = name
+        profile.bio = bio
+
+        db.commit()
+        db.refresh(profile)
+
+        return profile

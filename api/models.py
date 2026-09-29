@@ -1,5 +1,13 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Text, LargeBinary
-
+from sqlalchemy import (
+    Column,
+    DateTime,
+    ForeignKey,
+    Integer,
+    LargeBinary,
+    String,
+    Text,
+    func,
+)
 from database import Base
 
 class Profile(Base):
@@ -33,3 +41,17 @@ class Image(Base):
     id = Column(Integer, primary_key=True)
     content_type = Column(String(100), nullable=False)
     data = Column(LargeBinary, nullable=False)
+
+class Contact(Base):
+    __tablename__="contacts"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
+    email = Column(String(255), nullable=False)
+    subject = Column(String(200), nullable=False)
+    message = Column(Text, nullable=False)
+    created_at = Column(
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+    )
