@@ -22,10 +22,10 @@ def get_works():
         return db.scalars(select(Work)).all()
 
 def update_work(
-        work_id: int,
-        title: str,
-        description: str,
-        url: str | None,
+    work_id: int,
+    title: str,
+    description: str,
+    url: str | None,
 ):
     with SessionLocal() as db:
         work = db.get(Work, work_id)
@@ -40,14 +40,16 @@ def update_work(
         db.commit()
         db.refresh(work)
 
+        return work
+
 def delete_work(work_id: int):
     with SessionLocal() as db:
         work = db.get(Work, work_id)
 
-    if work is None:
-        return None
-    
-    db.delete(work)
-    db.commit()
+        if work is None:
+            return None
 
-    return work
+        db.delete(work)
+        db.commit()
+
+        return work
