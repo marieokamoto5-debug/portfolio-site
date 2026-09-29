@@ -6,6 +6,7 @@ from services.works import (
     get_works_service,
     create_work_service,
     update_work_service,
+    delete_work_service,
 )
 router = APIRouter()
 
@@ -66,4 +67,21 @@ def update_work(
         "title": work.title,
         "description": work.description,
         "url": work.url,
+    }
+
+@router.delete("/admin/works/{work_id}")
+def delete_work(
+    work_id: int,
+    user=Depends(require_admin),
+):
+    work = delete_work_service(work_id)
+
+    if work is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Work not found",
+        )
+
+    return {
+        "message": "Work deleted"
     }
