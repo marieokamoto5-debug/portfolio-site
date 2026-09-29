@@ -1,3 +1,5 @@
+import ContactForm from "./ContactForm";
+
 /* FastAPI 動作確認*/
 
 type Profile = {
@@ -106,6 +108,10 @@ export default async function Home() {
             </article>
           ))}
         </div>
+      </section>
+      <section className="mt-12">
+        <h2 className="mb-4 text-2xl font-bold">Contact</h2>
+        <ContactForm />
       </section>
     </main>
   );
