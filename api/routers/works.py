@@ -34,10 +34,12 @@ def create_work(
         work_data.description,
         work_data.url,
     )
+
     return {
         "id": work.id,
         "title": work.title,
-        "description": work.url,
+        "description": work.description,
+        "url": work.url,
     }
 
 @router.put("/admin/works/{work_id}")

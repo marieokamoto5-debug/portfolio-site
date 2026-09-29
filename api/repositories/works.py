@@ -42,7 +42,7 @@ def update_work(
 
 def delete_work(work_id: int):
     with SessionLocal() as db:
-    work = db.get(Work, work_id)
+        work = db.get(Work, work_id)
 
     if work is None:
         return None
