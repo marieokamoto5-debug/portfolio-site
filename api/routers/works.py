@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException
 from auth import require_admin
 from schemas.works import WorkCreate, WorkUpdate
+from schemas.works import WorkCreate, WorkUpdate
 from services.works import (
     get_works_service,
     create_work_service,
     update_work_service,
 )
-
 router = APIRouter()
 
 
@@ -45,21 +45,25 @@ def create_work(
 @router.put("/admin/works/{work_id}")
 def update_work(
     work_id: int,
-    title: str,
-    description: str,
-    url: str | None,
+    work_data: WorkUpdate,
+    user=Depends(require_admin),
 ):
-    with SessionLocal() as db:
-        work = db.get(Work, work_id)
+    work = update_work_service(
+        work_id,
+        work_data.title,
+        work_data.description,
+        work_data.url,
+    )
 
-        if work is None:
-            return None
+    if work is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Work not found",
+        )
 
-        work.title = title
-        work.description = description
-        work.url = url
-
-        db.commit()
-        db.refresh(work)
-
-        return work
+    return {
+        "id": work.id,
+        "title": work.title,
+        "description": work.description,
+        "url": work.url,
+    }
