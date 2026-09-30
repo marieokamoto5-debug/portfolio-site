@@ -5,6 +5,7 @@ import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import ProfileForm from "./ProfileForm";
 import SkillsManager from "./SkillsManager";
+import WorksManager from "./WorksManager";
 
 export default async function AdminPage() {
     const cookieStore = await cookies();
@@ -59,7 +60,18 @@ export default async function AdminPage() {
     }
 
     const skills = await skillsResponse.json();
+    const worksResponse = await fetch(
+        `${process.env.FASTAPI_URL}/works`,
+        {
+            cache: "no-store",
+        }
+    );
 
+    if (!worksResponse.ok) {
+        throw new Error("制作実績の取得に失敗しました");
+    }
+
+    const works = await worksResponse.json();
     const contactsResponse = await fetch(
         `${process.env.FASTAPI_URL}/admin/contacts`,
         {
@@ -97,7 +109,11 @@ export default async function AdminPage() {
 
                 <SkillsManager initialSkills={skills} />
             </section>
+            <section className="mt-8">
+                <h2 className="text-xl font-bold">実績</h2>
 
+                <WorksManager initialWorks={works} />
+            </section>
             <section className="mt-8">
                 <h2 className="text-xl font-bold">お問い合わせ</h2>
 
