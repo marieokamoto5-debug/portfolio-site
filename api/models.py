@@ -34,6 +34,7 @@ class Work(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(200), nullable=False)
     description = Column(Text, nullable=False)
+    url = Column(String(500), nullable=True)
 
 class Image(Base):
     __tablename__="images"
