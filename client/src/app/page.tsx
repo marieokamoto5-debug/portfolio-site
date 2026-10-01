@@ -20,6 +20,7 @@ type Work = {
   description: string
   url: string | null;
 }
+
 export default async function Home() {
   const profileResponse = await fetch(
     `${process.env.FASTAPI_URL}/profile`
@@ -106,6 +107,7 @@ export default async function Home() {
             >
               <h3 className="font-bold">{work.title}</h3>
               <p className="mt-2">{work.description}</p>
+              <a href={String(work.url) ?? ""} className="mt-2 block" >{work.url}</a>
             </article>
           ))}
         </div>
