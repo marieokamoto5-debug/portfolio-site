@@ -21,3 +21,17 @@ def update_profile(name: str, bio: str):
         db.refresh(profile)
 
         return profile
+
+def update_profile_image(image_id: int):
+    with SessionLocal() as db:
+        profile = db.scalar(select(Profile))
+
+        if profile is None:
+            return None
+
+        profile.image_id = image_id
+
+        db.commit()
+        db.refresh(profile)
+
+        return profile

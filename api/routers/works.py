@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from auth import require_admin
 from schemas.works import WorkCreate, WorkUpdate
-from schemas.works import WorkCreate, WorkUpdate
 from services.works import (
     get_works_service,
     create_work_service,
