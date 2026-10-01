@@ -1,5 +1,11 @@
-from fastapi import APIRouter, Depends, File, Response, UploadFile
-
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    HTTPException,
+    Response,
+    UploadFile,
+)
 from auth import require_admin
 from services.images import (
     create_image_service,
@@ -12,6 +18,12 @@ router = APIRouter()
 @router.get("/images/{image_id}")
 def read_image(image_id: int):
     image = get_image_service(image_id)
+
+    if image is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Image not found",
+        )
 
     return Response(
         content=image.data,

@@ -6,6 +6,8 @@ from services.profile import (
     update_profile_image_service,
     update_profile_service,
 )
+from services.images import get_image_service
+
 router = APIRouter()
 
 @router.get("/profile")
@@ -47,6 +49,14 @@ def update_profile_image(
     image_id: int,
     user=Depends(require_admin),
 ):
+    image = get_image_service(image_id)
+
+    if image is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Image not found",
+        )
+
     profile = update_profile_image_service(image_id)
 
     if profile is None:
