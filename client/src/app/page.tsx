@@ -107,7 +107,16 @@ export default async function Home() {
             >
               <h3 className="font-bold">{work.title}</h3>
               <p className="mt-2">{work.description}</p>
-              <a href={String(work.url) ?? ""} className="mt-2 block" >{work.url}</a>
+              {work.url && (
+                <a
+                  href={work.url}
+                  className="mt-2 block underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {work.url}
+                </a>
+              )}
             </article>
           ))}
         </div>
