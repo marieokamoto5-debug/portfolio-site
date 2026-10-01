@@ -45,7 +45,7 @@ export default function ProfileImageForm({
 
             {imageId && (
                 <img
-                    src={`http://127.0.0.1:8000/images/${imageId}`}
+                    src={`${process.env.NEXT_PUBLIC_FASTAPI_URL}/images/${imageId}`}
                     alt="プロフィール画像"
                     width={200}
                     className="mt-4 rounded-lg"
