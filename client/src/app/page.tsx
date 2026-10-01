@@ -17,8 +17,10 @@ type Skill = {
 type Work = {
   id: number;
   title: string;
-  description: string;
+  description: string
+  url: string | null;
 }
+
 export default async function Home() {
   const profileResponse = await fetch(
     `${process.env.FASTAPI_URL}/profile`
@@ -105,6 +107,16 @@ export default async function Home() {
             >
               <h3 className="font-bold">{work.title}</h3>
               <p className="mt-2">{work.description}</p>
+              {work.url && (
+                <a
+                  href={work.url}
+                  className="mt-2 block underline"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {work.url}
+                </a>
+              )}
             </article>
           ))}
         </div>
