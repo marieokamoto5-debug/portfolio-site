@@ -1,6 +1,10 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Depends, File, Response, UploadFile
 
-from services.images import get_image_service
+from auth import require_admin
+from services.images import (
+    create_image_service,
+    get_image_service,
+)
 
 router = APIRouter()
 
@@ -13,3 +17,21 @@ def read_image(image_id: int):
         content=image.data,
         media_type=image.content_type,
     )
+
+
+@router.post("/admin/images")
+async def create_image(
+    file: UploadFile = File(...),
+    user=Depends(require_admin),
+):
+    data = await file.read()
+
+    image = create_image_service(
+        file.content_type or "application/octet-stream",
+        data,
+    )
+
+    return {
+        "id": image.id,
+        "content_type": image.content_type,
+    }
