@@ -17,7 +17,8 @@ type Skill = {
 type Work = {
   id: number;
   title: string;
-  description: string;
+  description: string
+  url: string | null;
 }
 export default async function Home() {
   const profileResponse = await fetch(
