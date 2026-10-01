@@ -6,6 +6,7 @@ import LogoutButton from "./LogoutButton";
 import ProfileForm from "./ProfileForm";
 import SkillsManager from "./SkillsManager";
 import WorksManager from "./WorksManager";
+import ProfileImageForm from "./ProfileImageForm";
 
 export default async function AdminPage() {
     const cookieStore = await cookies();
@@ -102,6 +103,8 @@ export default async function AdminPage() {
                     name={profile.name}
                     bio={profile.bio}
                 />
+
+                <ProfileImageForm imageId={profile.image_id} />
             </section>
 
             <section className="mt-8">
