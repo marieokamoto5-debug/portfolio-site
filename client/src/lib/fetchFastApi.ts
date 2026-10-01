@@ -11,12 +11,21 @@ export async function fetchFastApi(
     if (!idToken) {
         return null;
     }
+
+    const isFormData = body instanceof FormData;
+
     return fetch(`${process.env.FASTAPI_URL}${path}`, {
         method,
         headers: {
-            "Content-Type": "application/json",
+            ...(isFormData
+                ? {}
+                : { "Content-Type": "application/json" }),
             Authorization: `Bearer ${idToken}`,
         },
-        body: body ? JSON.stringify(body) : undefined,
+        body: body
+            ? isFormData
+                ? body
+                : JSON.stringify(body)
+            : undefined,
     });
 }
