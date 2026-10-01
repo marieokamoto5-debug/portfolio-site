@@ -73,3 +73,44 @@ Service     = 処理・判断係
 Repository  = DB操作係
 Model       = DB構造
 Schema      = APIデータの型・形
+
+
+# ER図
+```mermaid
+erDiagram
+    PROFILE {
+        int id PK
+        string name
+        text bio
+        int image_id FK
+    }
+
+    SKILL {
+        int id PK
+        string name
+    }
+
+    WORK {
+        int id PK
+        string title
+        text description
+        string url
+    }
+
+    IMAGE {
+        int id PK
+        string content_type
+        binary data
+    }
+
+    CONTACT {
+        int id PK
+        string name
+        string email
+        string subject
+        text message
+        datetime created_at
+    }
+
+    IMAGE o|--o{ PROFILE : "profile image"
+```
