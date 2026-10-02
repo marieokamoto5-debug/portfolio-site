@@ -7,6 +7,8 @@ export default function ContactForm() {
     const [email, setEmail] = useState("");
     const [subject, setSubject] = useState("");
     const [message, setMessage] = useState("");
+    const [submitMessage, setSubmitMessage] = useState("");
+
 
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -25,11 +27,11 @@ export default function ContactForm() {
         });
 
         if (!response.ok) {
-            alert("問い合わせの送信に失敗しました");
+            setSubmitMessage("問い合わせの送信に失敗しました");
             return;
         }
 
-        alert("問い合わせを送信しました");
+        setSubmitMessage("お問い合わせを受け付けました");
 
         setName("");
         setEmail("");
@@ -75,6 +77,9 @@ export default function ContactForm() {
             <button type="submit" className="border px-4 py-2">
                 送信
             </button>
+            {submitMessage && (
+                <p>{submitMessage}</p>
+            )}
         </form>
     );
 }
