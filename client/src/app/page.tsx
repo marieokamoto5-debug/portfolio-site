@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+
 /* FastAPI 動作確認*/
 
 type Profile = {
@@ -71,81 +72,98 @@ export default async function Home() {
   const works: Work[] = await worksResponse.json();
 
   return (
-    <main className="mx-auto max-w-4xl p-8 bg-cl">
-      <section className="mb-12">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-3xl">
-              {profile.name}
-            </CardTitle>
-          </CardHeader>
+    <div className="min-h-screen bg-gray-50">
 
-          <CardContent>
-            {profile.image_id && (
-              <img
-                src={`${process.env.FASTAPI_URL}/images/${profile.image_id}`}
-                alt={profile.name}
-                width={200}
-                className="rounded-lg"
-              />
-            )}
+      <main className="mx-auto max-w-4xl p-8">
+        <section className="mb-12">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl">
+                {profile.name}
+              </CardTitle>
+            </CardHeader>
 
-            <p className="mt-4">{profile.bio}</p>
-          </CardContent>
-        </Card>
-      </section>
+            <CardContent>
+              {profile.image_id && (
+                <img
+                  src={`${process.env.FASTAPI_URL}/images/${profile.image_id}`}
+                  alt={profile.name}
+                  width={200}
+                  className="rounded-lg"
+                />
+              )}
 
-      <section className="mb-12">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-3xl">
-              <h2 className="mb-4 text-2xl font-bold">Skills</h2>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="flex flex-wrap gap-2">
-              {skills.map((skill) => (
-                <li
-                  key={skill.id}
-                  className="rounded border px-3 py-1"
-                >
-                  {skill.name}
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+              <p className="mt-4">{profile.bio}</p>
+            </CardContent>
+          </Card>
+        </section>
 
-      </section>
-
-      <section>
-        <h2 className="mb-4 text-2xl font-bold">Works</h2>
-
-        <div className="space-y-4">
-          {works.map((work) => (
-            <Card key={work.id}>
-              <CardHeader>
-                <CardTitle>{work.title}</CardTitle>
-              </CardHeader>
-
-              <CardContent>
-                <p>{work.description}</p>
-
-                {work.url && (
-                  <a
-                    href={work.url}
-                    className="mt-2 block underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
+        <section className="mb-12">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl">
+                <h2 className="mb-4 text-2xl font-bold">Skills</h2>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="flex flex-wrap gap-2">
+                {skills.map((skill) => (
+                  <li
+                    key={skill.id}
+                    className="rounded border px-3 py-1"
                   >
-                    サイトを見る
-                  </a>
-                )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-    </main>
+                    {skill.name}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+
+        </section>
+
+        <section>
+          <h2 className="mb-4 text-2xl font-bold">Works</h2>
+
+          <div className="space-y-4">
+            {works.map((work) => (
+              <Card key={work.id}>
+                <CardHeader>
+                  <CardTitle>{work.title}</CardTitle>
+                </CardHeader>
+
+                <CardContent>
+                  <p>{work.description}</p>
+
+                  {work.url && (
+                    <a
+                      href={work.url}
+                      className="mt-2 block underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {work.url}
+                    </a>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+        <section className="mt-12">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-2xl">
+                Contact
+              </CardTitle>
+
+            </CardHeader>
+
+            <CardContent>
+              <ContactForm />
+            </CardContent>
+          </Card>
+        </section>
+      </main>
+    </div>
   );
 }
