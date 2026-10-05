@@ -1,6 +1,8 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { Button } from "@/components/ui/button";
+
 
 export default function ContactForm() {
     const [name, setName] = useState("");
@@ -74,9 +76,9 @@ export default function ContactForm() {
                 className="w-full border p-2"
             />
 
-            <button type="submit" className="border px-4 py-2">
+            <Button type="submit" className="border px-4 py-2">
                 送信
-            </button>
+            </Button>
             {submitMessage && (
                 <p>{submitMessage}</p>
             )}

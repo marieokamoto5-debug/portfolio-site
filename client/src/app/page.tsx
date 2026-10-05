@@ -1,4 +1,11 @@
 import ContactForm from "./ContactForm";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
 
 /* FastAPI 動作確認*/
 
@@ -65,66 +72,98 @@ export default async function Home() {
   const works: Work[] = await worksResponse.json();
 
   return (
-    <main className="mx-auto max-w-4xl p-8">
-      <section className="mb-12">
-        <h1 className="text-3xl font-bold">{profile.name}</h1>
+    <div className="min-h-screen bg-gray-50">
 
-        {profile.image_id && (
-          <img
-            src={`${process.env.FASTAPI_URL}/images/${profile.image_id}`}
-            alt={profile.name}
-            width={200}
-            className="mt-4 rounded-lg"
-          />
-        )}
+      <main className="mx-auto max-w-4xl p-8">
+        <section className="mb-12">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl">
+                {profile.name}
+              </CardTitle>
+            </CardHeader>
 
-        <p className="mt-4">{profile.bio}</p>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="mb-4 text-2xl font-bold">Skills</h2>
-
-        <ul className="flex flex-wrap gap-2">
-          {skills.map((skill) => (
-            <li
-              key={skill.id}
-              className="rounded border px-3 py-1"
-            >
-              {skill.name}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="mb-4 text-2xl font-bold">Works</h2>
-
-        <div className="space-y-4">
-          {works.map((work) => (
-            <article
-              key={work.id}
-              className="rounded-lg border p-4"
-            >
-              <h3 className="font-bold">{work.title}</h3>
-              <p className="mt-2">{work.description}</p>
-              {work.url && (
-                <a
-                  href={work.url}
-                  className="mt-2 block underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {work.url}
-                </a>
+            <CardContent>
+              {profile.image_id && (
+                <img
+                  src={`${process.env.FASTAPI_URL}/images/${profile.image_id}`}
+                  alt={profile.name}
+                  width={200}
+                  className="rounded-lg"
+                />
               )}
-            </article>
-          ))}
-        </div>
-      </section>
-      <section className="mt-12">
-        <h2 className="mb-4 text-2xl font-bold">Contact</h2>
-        <ContactForm />
-      </section>
-    </main>
+
+              <p className="mt-4">{profile.bio}</p>
+            </CardContent>
+          </Card>
+        </section>
+
+        <section className="mb-12">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-3xl">
+                <h2 className="mb-4 text-2xl font-bold">Skills</h2>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="flex flex-wrap gap-2">
+                {skills.map((skill) => (
+                  <li
+                    key={skill.id}
+                    className="rounded border px-3 py-1"
+                  >
+                    {skill.name}
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+
+        </section>
+
+        <section>
+          <h2 className="mb-4 text-2xl font-bold">Works</h2>
+
+          <div className="space-y-4">
+            {works.map((work) => (
+              <Card key={work.id}>
+                <CardHeader>
+                  <CardTitle>{work.title}</CardTitle>
+                </CardHeader>
+
+                <CardContent>
+                  <p>{work.description}</p>
+
+                  {work.url && (
+                    <a
+                      href={work.url}
+                      className="mt-2 block underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {work.url}
+                    </a>
+                  )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+        <section className="mt-12">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-2xl">
+                Contact
+              </CardTitle>
+
+            </CardHeader>
+
+            <CardContent>
+              <ContactForm />
+            </CardContent>
+          </Card>
+        </section>
+      </main>
+    </div>
   );
 }
