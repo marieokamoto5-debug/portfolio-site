@@ -1,6 +1,12 @@
 # Portfolio Site
 
-Next.js / FastAPI / PostgreSQL を使用したポートフォリオサイトです。
+Next.js / FastAPI / PostgreSQLで開発した、管理画面付きポートフォリオサイトです。
+
+**[公開中のサイトを見る](https://portfolio-site-sooty-five.vercel.app)**
+
+- **主な機能**：プロフィール・スキル・制作実績の表示、問い合わせ送信、管理者によるコンテンツ更新
+- **公開環境**：Vercel（Next.js）、Render（FastAPI）、Neon（PostgreSQL）
+- **開発担当**：フロントエンド、API、データベース、認証・認可、デプロイ
 
 プロフィール、スキル、制作実績をトップページに表示し、
 Firebase Authenticationで認証された管理者は管理画面から内容を編集できます。
@@ -34,6 +40,13 @@ Firebase Authenticationで認証された管理者は管理画面から内容を
 ### Database
 
 - PostgreSQL 17
+
+## 設計・実装で工夫した点
+
+- **責務の分離**：FastAPIをRouter / Service / Repositoryに分け、処理判断とDB操作を分離しました。
+- **認可の実装**：Firebase IDトークンをFastAPIで検証し、管理者向けAPIでは管理者権限を確認します。
+- **画像登録**：JPEG・PNG・WebPを対象に、画像形式と5MBの上限を検証します。
+- **本番環境への移行**：ローカル開発環境からVercel / Render / Neonへ移行し、CORSとFirebase認証情報の設定を調整しました。
 
 ## FastAPIのレイヤ構成
 
@@ -76,8 +89,8 @@ Firebase認証を利用するため、Firebaseプロジェクトも必要です�
 ## 2. リポジトリをclone
 
 ```powershell
-git clone <repository-url>
-cd marieokamoto_section_6
+git clone https://github.com/marieokamoto5-debug/portfolio-site.git
+cd portfolio-site
 ```
 
 ## 3. PostgreSQL用の環境変数を設定
@@ -208,11 +221,7 @@ npm ci
 ```
 ## 12. Next.js用の環境変数を設定
 
-`client/.env.example` をコピーして `client/.env.local` を作成します。
-
-```powershell
-Copy-Item client/.env.example client/.env.local
-```
+`client/.env.example` は用意していません。`client` ディレクトリに `client/.env.local` を**新規作成**し、以下の環境変数を設定します。
 
 主な設定値は以下です。
 
@@ -317,78 +326,6 @@ api/secrets/firebase-service-account.json
 ファイルサイズは最大5MBです。
 
 ---
-
-# 開発開始時に実施したコマンド
-
-以下はプロジェクト作成時の記録です。
-通常のセットアップでは実行する必要はありません。
-
-## Next.js
-
-```powershell
-npx create-next-app@latest client --ts --eslint --tailwind --app --src-dir --use-npm --import-alias "@/*"
-```
-
-## FastAPI
-
-```powershell
-uv init api
-cd api
-uv add fastapi uvicorn
-```
-
-## 開発時のクイック起動
-
-Docker Desktopを起動しておく。
-
-### PostgreSQL
-
-```powershell
-docker compose up -d
-docker compose exec db pg_isready -U section6 -d section6
-
-
-### Next.js
-専用のターミナルで実行。
-
-```powershell
-cd client
-npm run dev
-```
-
-確認先：http://localhost:3000
-
-### FastAPI
-別のターミナルで実行。
-
-```powershell
-cd api
-uv run uvicorn main:app --reload
-```
-
-確認先：http://localhost:8000
-API確認画面：http://localhost:8000/docs
-
-# FastAPIのレイヤ構成
-
-ブラウザ / Next.js
-        ↓
-      Router
-        ↓
-      Service
-        ↓
-    Repository
-        ↓
-      Model
-        ↓
-   PostgreSQL
-
-Router      = API受付係
-Service     = 処理・判断係
-Repository  = DB操作係
-Model       = DB構造
-Schema      = APIデータの型・形
-
 
 # ER図
 ```mermaid
