@@ -133,7 +133,7 @@ export default async function Home() {
                 </CardHeader>
 
                 <CardContent>
-                  <p>{work.description}</p>
+                  <p className="whitespace-pre-line">{work.description}</p>
 
                   {work.url && (
                     <a

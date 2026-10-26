@@ -200,7 +200,7 @@ export default function WorksManager({
                         ) : (
                             <>
                                 <p>{work.title}</p>
-                                <p>{work.description}</p>
+                                <p className="whitespace-pre-line">{work.description}</p>
 
                                 {work.url && (
                                     <a
